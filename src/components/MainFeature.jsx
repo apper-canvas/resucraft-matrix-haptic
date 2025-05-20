@@ -10,6 +10,7 @@ const resumeTemplates = [
     name: 'Executive',
     description: 'Professional corporate design with a bold sidebar',
     previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297565/resume-templates/executive_resume_uxhpj2.jpg',
+    icon: 'briefcase',
     layout: 'sidebar-left',
     fonts: {
       heading: 'Montserrat',
@@ -26,6 +27,7 @@ const resumeTemplates = [
     name: 'Creative',
     description: 'Bold asymmetric design for creative professionals',
     previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297565/resume-templates/creative_resume_cdjy6a.jpg',
+    icon: 'palette',
     layout: 'asymmetric',
     fonts: {
       heading: 'Poppins',
@@ -42,6 +44,7 @@ const resumeTemplates = [
     name: 'Minimal',
     description: 'Clean, minimalist design with elegant typography',
     previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297565/resume-templates/minimal_resume_bpvbw8.jpg',
+    icon: 'minimize-2',
     layout: 'single-column',
     fonts: {
       heading: 'DM Sans',
@@ -58,6 +61,7 @@ const resumeTemplates = [
     name: 'Elegant',
     description: 'Sophisticated design with classic typography',
     previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297565/resume-templates/elegant_resume_qwz2nh.jpg',
+    icon: 'feather',
     layout: 'header-focus',
     fonts: {
       heading: 'Playfair Display',
@@ -74,6 +78,7 @@ const resumeTemplates = [
     name: 'Modern',
     description: 'Contemporary dual-column layout with clean lines',
     previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297565/resume-templates/modern_resume_nrjsyd.jpg',
+    icon: 'layers',
     layout: 'two-column',
     fonts: {
       heading: 'Raleway',
@@ -90,6 +95,7 @@ const resumeTemplates = [
     name: 'Infographic',
     description: 'Visual resume with skill bars and icons',
     previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297565/resume-templates/infographic_resume_qqtaiz.jpg',
+    icon: 'bar-chart-2',
     layout: 'infographic',
     fonts: {
       heading: 'Montserrat',
@@ -106,6 +112,7 @@ const resumeTemplates = [
     name: 'Academic',
     description: 'Traditional format for academic and research CVs',
     previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297564/resume-templates/academic_resume_qocsrd.jpg',
+    icon: 'book-open',
     layout: 'traditional',
     fonts: {
       heading: 'Merriweather',
@@ -302,7 +309,14 @@ const MainFeature = ({ activeTab }) => {
                         </div>
                       )}
                       <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
-                        <h3 className="font-semibold">{template.name}</h3>
+                        <div className="flex items-center">
+                          {template.icon && (
+                            <span className="mr-1.5">
+                              {React.createElement(getIcon(template.icon), { className: "w-4 h-4" })}
+                            </span>
+                          )}
+                          <h3 className="font-semibold">{template.name}</h3>
+                        </div>
                       </div>
                     </div>
                   </div>
