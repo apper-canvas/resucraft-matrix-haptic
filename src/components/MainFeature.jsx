@@ -5,81 +5,116 @@ import { getIcon } from '../utils/iconUtils';
 
 // Resume templates data
 const resumeTemplates = [
-  {
-    id: 'elegant',
-    name: 'Elegant',
-    description: 'A clean, professional design with a modern touch',
-    previewImage: 'https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
-    colorSchemes: [
-      { name: 'Blue', primary: '#3b82f6', secondary: '#93c5fd' },
-      { name: 'Emerald', primary: '#10b981', secondary: '#6ee7b7' },
-      { name: 'Purple', primary: '#8b5cf6', secondary: '#c4b5fd' },
-    ]
-  },
-  {
-    id: 'minimal',
-    name: 'Minimal',
-    description: 'Simple and straightforward for a focused presentation',
-    previewImage: 'https://images.unsplash.com/photo-1586282391129-76a2d60225f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
-    colorSchemes: [
-      { name: 'Gray', primary: '#4b5563', secondary: '#9ca3af' },
-      { name: 'Navy', primary: '#1e40af', secondary: '#60a5fa' },
-      { name: 'Amber', primary: '#d97706', secondary: '#fbbf24' },
-    ]
-  },
-  {
+  { 
     id: 'executive',
     name: 'Executive',
-    description: 'Bold and authoritative for senior positions',
-    previewImage: 'https://images.unsplash.com/photo-1512389142860-9c449e58a543?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
+    description: 'Professional corporate design with a bold sidebar',
+    previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297565/resume-templates/executive_resume_uxhpj2.jpg',
+    layout: 'sidebar-left',
+    fonts: {
+      heading: 'Montserrat',
+      body: 'Source Sans Pro'
+    },
     colorSchemes: [
-      { name: 'Charcoal', primary: '#1f2937', secondary: '#6b7280' },
-      { name: 'Burgundy', primary: '#9f1239', secondary: '#fb7185' },
-      { name: 'Forest', primary: '#14532d', secondary: '#34d399' },
+      { name: 'Navy', primary: '#1e3a8a', secondary: '#60a5fa' },
+      { name: 'Maroon', primary: '#7f1d1d', secondary: '#ef4444' },
+      { name: 'Forest', primary: '#064e3b', secondary: '#10b981' },
     ]
   },
   {
     id: 'creative',
     name: 'Creative',
-    description: 'A unique layout for creative professionals',
-    previewImage: 'https://images.unsplash.com/photo-1583508915901-b5f84c1dcde1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
+    description: 'Bold asymmetric design for creative professionals',
+    previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297565/resume-templates/creative_resume_cdjy6a.jpg',
+    layout: 'asymmetric',
+    fonts: {
+      heading: 'Poppins',
+      body: 'Roboto'
+    },
     colorSchemes: [
-      { name: 'Sunset', primary: '#db2777', secondary: '#f472b6' },
-      { name: 'Ocean', primary: '#0369a1', secondary: '#22d3ee' },
-      { name: 'Lime', primary: '#65a30d', secondary: '#a3e635' },
+      { name: 'Coral', primary: '#f43f5e', secondary: '#fb7185' },
+      { name: 'Violet', primary: '#6d28d9', secondary: '#a78bfa' },
+      { name: 'Sunrise', primary: '#ff6b00', secondary: '#fb923c' },
+    ]
+  },
+  {
+    id: 'minimal',
+    name: 'Minimal',
+    description: 'Clean, minimalist design with elegant typography',
+    previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297565/resume-templates/minimal_resume_bpvbw8.jpg',
+    layout: 'single-column',
+    fonts: {
+      heading: 'DM Sans',
+      body: 'Inter'
+    },
+    colorSchemes: [
+      { name: 'Slate', primary: '#334155', secondary: '#94a3b8' },
+      { name: 'Teal', primary: '#0f766e', secondary: '#5eead4' },
+      { name: 'Amber', primary: '#92400e', secondary: '#fbbf24' },
+    ]
+  },
+  {
+    id: 'elegant',
+    name: 'Elegant',
+    description: 'Sophisticated design with classic typography',
+    previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297565/resume-templates/elegant_resume_qwz2nh.jpg',
+    layout: 'header-focus',
+    fonts: {
+      heading: 'Playfair Display',
+      body: 'Lato'
+    },
+    colorSchemes: [
+      { name: 'Royal', primary: '#1e3a8a', secondary: '#3b82f6' },
+      { name: 'Emerald', primary: '#065f46', secondary: '#10b981' },
+      { name: 'Burgundy', primary: '#9f1239', secondary: '#fb7185' },
     ]
   },
   {
     id: 'modern',
     name: 'Modern',
-    description: 'Contemporary design with bold accents',
-    previewImage: 'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
+    description: 'Contemporary dual-column layout with clean lines',
+    previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297565/resume-templates/modern_resume_nrjsyd.jpg',
+    layout: 'two-column',
+    fonts: {
+      heading: 'Raleway',
+      body: 'Open Sans'
+    },
     colorSchemes: [
-      { name: 'Slate', primary: '#475569', secondary: '#94a3b8' },
-      { name: 'Rose', primary: '#e11d48', secondary: '#fb7185' },
-      { name: 'Teal', primary: '#0d9488', secondary: '#5eead4' },
+      { name: 'Ocean', primary: '#0c4a6e', secondary: '#38bdf8' },
+      { name: 'Charcoal', primary: '#0f172a', secondary: '#64748b' },
+      { name: 'Rose', primary: '#be123c', secondary: '#fb7185' },
     ]
   },
   {
-    id: 'classic',
-    name: 'Classic',
-    description: 'Traditional format that never goes out of style',
-    previewImage: 'https://images.unsplash.com/photo-1594972752320-9ded9eb43d59?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
+    id: 'infographic',
+    name: 'Infographic',
+    description: 'Visual resume with skill bars and icons',
+    previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297565/resume-templates/infographic_resume_qqtaiz.jpg',
+    layout: 'infographic',
+    fonts: {
+      heading: 'Montserrat',
+      body: 'Nunito'
+    },
     colorSchemes: [
-      { name: 'Black', primary: '#171717', secondary: '#737373' },
-      { name: 'Indigo', primary: '#4338ca', secondary: '#818cf8' },
-      { name: 'Crimson', primary: '#b91c1c', secondary: '#ef4444' },
+      { name: 'Gradient Blue', primary: '#2563eb', secondary: '#60a5fa' },
+      { name: 'Gradient Purple', primary: '#7e22ce', secondary: '#c084fc' },
+      { name: 'Gradient Green', primary: '#059669', secondary: '#34d399' },
     ]
   },
   {
     id: 'academic',
     name: 'Academic',
-    description: 'Structured format for educational and research positions',
-    previewImage: 'https://images.unsplash.com/photo-1532153955177-f59af40d6472?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
+    description: 'Traditional format for academic and research CVs',
+    previewImage: 'https://res.cloudinary.com/dq5eomkfz/image/upload/v1716297564/resume-templates/academic_resume_qocsrd.jpg',
+    layout: 'traditional',
+    fonts: {
+      heading: 'Merriweather',
+      body: 'Source Sans Pro'
+    },
     colorSchemes: [
-      { name: 'Oxford', primary: '#1e3a8a', secondary: '#3b82f6' },
-      { name: 'Maroon', primary: '#881337', secondary: '#e11d48' },
-      { name: 'Olive', primary: '#3f6212', secondary: '#84cc16' },
+      { name: 'Oxford Blue', primary: '#0c4a6e', secondary: '#38bdf8' },
+      { name: 'Harvard Crimson', primary: '#7f1d1d', secondary: '#ef4444' },
+      { name: 'Princeton Orange', primary: '#7c2d12', secondary: '#fb923c' },
     ]
   }
 ];
@@ -668,160 +703,301 @@ const MainFeature = ({ activeTab }) => {
       {/* Right Side - Resume Preview */}
       <div className={`w-full ${previewMode ? '' : 'lg:w-1/2'}`}>
         <div className="card h-full">
-          <div className="bg-white border border-surface-300 shadow-lg rounded-lg overflow-hidden max-w-[800px] mx-auto">
-            <div 
-              className="p-8"
-              style={{
-                background: `linear-gradient(135deg, ${selectedColorScheme.primary}60, ${selectedColorScheme.secondary}40)`,
-                borderBottom: `3px solid ${selectedColorScheme.primary}`
-              }}
-            >
-              <h1 
-                className="text-3xl font-bold"
-                style={{ color: selectedColorScheme.primary }}
-              >
-                {formData.personalInfo.name || 'Your Name'}
-              </h1>
-              <p className="text-xl text-surface-700 mt-1">
-                {formData.personalInfo.title || 'Professional Title'}
-              </p>
-              
-              <div className="flex flex-wrap mt-4 gap-4">
-                {formData.personalInfo.email && (
-                  <div className="flex items-center text-sm text-surface-600">
-                    <span className="font-medium">Email:</span>
-                    <span className="ml-1">{formData.personalInfo.email}</span>
-                  </div>
-                )}
-                {formData.personalInfo.phone && (
-                  <div className="flex items-center text-sm text-surface-600">
-                    <span className="font-medium">Phone:</span>
-                    <span className="ml-1">{formData.personalInfo.phone}</span>
-                  </div>
-                )}
-                {formData.personalInfo.location && (
-                  <div className="flex items-center text-sm text-surface-600">
-                    <span className="font-medium">Location:</span>
-                    <span className="ml-1">{formData.personalInfo.location}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-            
-            <div className="p-8">
-              {formData.personalInfo.summary && (
-                <div className="mb-6">
-                  <h2 
-                    className="text-lg font-semibold mb-2"
-                    style={{ color: selectedColorScheme.primary }}
-                  >
-                    Professional Summary
-                  </h2>
-                  <p className="text-surface-700">
-                    {formData.personalInfo.summary}
-                  </p>
-                </div>
-              )}
-              
-              {formData.experience.some(exp => exp.company || exp.position) && (
-                <div className="mb-6">
-                  <h2 
-                    className="text-lg font-semibold mb-3"
-                    style={{ color: selectedColorScheme.primary, borderBottom: `2px solid ${selectedColorScheme.secondary}`, paddingBottom: '0.5rem' }}
-                  >
-                    Experience
-                  </h2>
-                  
-                  {formData.experience.map((exp, index) => (
-                    (exp.company || exp.position) && (
-                      <div key={index} className="mb-4">
-                        <div className="flex flex-col sm:flex-row sm:justify-between">
-                          <div>
-                            <h3 className="font-medium">{exp.position || 'Position Title'}</h3>
-                            <p className="text-surface-600">{exp.company || 'Company Name'}</p>
-                          </div>
-                          {(exp.startDate || exp.endDate) && (
-                            <p className="text-sm text-surface-500 mt-1 sm:mt-0">
-                              {exp.startDate || 'Start Date'} - {exp.endDate || 'End Date'}
-                            </p>
-                          )}
+          {/* Dynamic Resume Template Rendering */}
+          {selectedTemplate.layout === 'sidebar-left' && (
+            <div className="bg-white border border-surface-300 shadow-lg rounded-lg overflow-hidden max-w-[800px] mx-auto" style={{fontFamily: selectedTemplate.fonts.body}}>
+              <div className="flex flex-col md:flex-row">
+                {/* Sidebar */}
+                <div className="md:w-1/3 bg-surface-800" style={{backgroundColor: selectedColorScheme.primary}}>
+                  <div className="p-6 text-white">
+                    {/* Photo placeholder */}
+                    <div className="w-32 h-32 rounded-full bg-white/20 mx-auto mb-4 flex items-center justify-center text-white/50">
+                      <span className="text-4xl">
+                        {formData.personalInfo.name ? formData.personalInfo.name.charAt(0) : 'Y'}
+                      </span>
+                    </div>
+                    
+                    <div className="border-b border-white/20 pb-4 mb-6">
+                      <h4 className="uppercase text-xs tracking-wider mb-2 text-white/70">Contact</h4>
+                      {formData.personalInfo.email && <p className="text-sm mb-1">{formData.personalInfo.email}</p>}
+                      {formData.personalInfo.phone && <p className="text-sm mb-1">{formData.personalInfo.phone}</p>}
+                      {formData.personalInfo.location && <p className="text-sm">{formData.personalInfo.location}</p>}
+                    </div>
+                    
+                    {formData.skills.some(skill => skill) && (
+                      <div>
+                        <h4 className="uppercase text-xs tracking-wider mb-3 text-white/70">Skills</h4>
+                        <div className="space-y-2">
+                          {formData.skills.map((skill, index) => (
+                            skill && (
+                              <div key={index} className="text-sm">
+                                {skill}
+                              </div>
+                            )
+                          ))}
                         </div>
-                        {exp.description && (
-                          <p className="text-surface-700 mt-2 text-sm">
-                            {exp.description}
-                          </p>
-                        )}
                       </div>
-                    )
-                  ))}
+                    )}
+                  </div>
                 </div>
-              )}
-              
-              {formData.education.some(edu => edu.institution || edu.degree) && (
-                <div className="mb-6">
-                  <h2 
-                    className="text-lg font-semibold mb-3"
-                    style={{ color: selectedColorScheme.primary, borderBottom: `2px solid ${selectedColorScheme.secondary}`, paddingBottom: '0.5rem' }}
-                  >
-                    Education
-                  </h2>
+                
+                {/* Main Content */}
+                <div className="md:w-2/3 p-8">
+                  <h1 className="text-3xl font-bold uppercase tracking-wide mb-1" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
+                    {formData.personalInfo.name || 'Your Name'}
+                  </h1>
+                  <p className="text-xl text-surface-600 mb-6 pb-6 border-b border-surface-200">
+                    {formData.personalInfo.title || 'Professional Title'}
+                  </p>
                   
-                  {formData.education.map((edu, index) => (
-                    (edu.institution || edu.degree) && (
-                      <div key={index} className="mb-4">
-                        <div className="flex flex-col sm:flex-row sm:justify-between">
-                          <div>
-                            <h3 className="font-medium">
+                  {formData.personalInfo.summary && (
+                    <div className="mb-6">
+                      <h2 className="text-lg font-bold mb-2 uppercase tracking-wide" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
+                        Profile
+                      </h2>
+                      <p className="text-surface-700">
+                        {formData.personalInfo.summary}
+                      </p>
+                    </div>
+                  )}
+                  
+                  {formData.experience.some(exp => exp.company || exp.position) && (
+                    <div className="mb-6">
+                      <h2 className="text-lg font-bold mb-3 uppercase tracking-wide" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
+                        Experience
+                      </h2>
+                      
+                      {formData.experience.map((exp, index) => (
+                        (exp.company || exp.position) && (
+                          <div key={index} className="mb-4">
+                            <h3 className="font-semibold">{exp.position || 'Position Title'}</h3>
+                            <div className="flex justify-between items-center mb-1">
+                              <p className="text-surface-600">{exp.company || 'Company Name'}</p>
+                              {(exp.startDate || exp.endDate) && (
+                                <p className="text-sm text-surface-500">
+                                  {exp.startDate || 'Start Date'} - {exp.endDate || 'End Date'}
+                                </p>
+                              )}
+                            </div>
+                            {exp.description && (
+                              <p className="text-surface-700 mt-1 text-sm">
+                                {exp.description}
+                              </p>
+                            )}
+                          </div>
+                        )
+                      ))}
+                    </div>
+                  )}
+                  
+                  {formData.education.some(edu => edu.institution || edu.degree) && (
+                    <div>
+                      <h2 className="text-lg font-bold mb-3 uppercase tracking-wide" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
+                        Education
+                      </h2>
+                      
+                      {formData.education.map((edu, index) => (
+                        (edu.institution || edu.degree) && (
+                          <div key={index} className="mb-3">
+                            <h3 className="font-semibold">
                               {edu.degree ? edu.degree : 'Degree'}{edu.field ? `, ${edu.field}` : ''}
                             </h3>
-                            <p className="text-surface-600">{edu.institution || 'Institution Name'}</p>
+                            <div className="flex justify-between items-center">
+                              <p className="text-surface-600">{edu.institution || 'Institution Name'}</p>
+                              {(edu.startDate || edu.endDate) && (
+                                <p className="text-sm text-surface-500">
+                                  {edu.startDate || 'Start Date'} - {edu.endDate || 'End Date'}
+                                </p>
+                              )}
+                            </div>
                           </div>
-                          {(edu.startDate || edu.endDate) && (
-                            <p className="text-sm text-surface-500 mt-1 sm:mt-0">
-                              {edu.startDate || 'Start Date'} - {edu.endDate || 'End Date'}
-                            </p>
-                          )}
-                        </div>
-                        {edu.description && (
-                          <p className="text-surface-700 mt-2 text-sm">
-                            {edu.description}
-                          </p>
-                        )}
-                      </div>
-                    )
-                  ))}
+                        )
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
-              
-              {formData.skills.some(skill => skill) && (
-                <div>
-                  <h2 
-                    className="text-lg font-semibold mb-3"
-                    style={{ color: selectedColorScheme.primary, borderBottom: `2px solid ${selectedColorScheme.secondary}`, paddingBottom: '0.5rem' }}
-                  >
-                    Skills
-                  </h2>
+              </div>
+            </div>
+          )}
+          
+          {selectedTemplate.layout === 'asymmetric' && (
+            <div className="bg-white border border-surface-300 shadow-lg rounded-lg overflow-hidden max-w-[800px] mx-auto" style={{fontFamily: selectedTemplate.fonts.body}}>
+              {/* Creative Header with diagonal element */}
+              <div className="relative">
+                <div className="h-36 w-full relative overflow-hidden" style={{backgroundColor: selectedColorScheme.primary}}>
+                  <div className="absolute bottom-0 right-0 w-3/4 h-full" style={{
+                    backgroundColor: selectedColorScheme.secondary,
+                    clipPath: 'polygon(100% 0, 0% 100%, 100% 100%)'
+                  }}></div>
                   
-                  <div className="flex flex-wrap gap-2">
-                    {formData.skills.map((skill, index) => (
-                      skill && (
-                        <span 
-                          key={index}
-                          className="px-3 py-1 rounded-full text-sm"
-                          style={{ 
-                            backgroundColor: `${selectedColorScheme.secondary}30`,
-                            color: selectedColorScheme.primary
-                          }}
-                        >
-                          {skill}
-                        </span>
-                      )
-                    ))}
+                  <div className="absolute top-0 left-0 h-full w-full p-8 flex flex-col justify-center">
+                    <h1 className="text-3xl font-bold text-white" style={{fontFamily: selectedTemplate.fonts.heading}}>
+                      {formData.personalInfo.name || 'Your Name'}
+                    </h1>
+                    <p className="text-xl text-white/80">
+                      {formData.personalInfo.title || 'Professional Title'}
+                    </p>
                   </div>
                 </div>
-              )}
+                
+                <div className="flex justify-end p-4 bg-surface-100 text-sm">
+                  {formData.personalInfo.email && (
+                    <div className="ml-4">
+                      <span className="font-medium">Email:</span> {formData.personalInfo.email}
+                    </div>
+                  )}
+                  {formData.personalInfo.phone && (
+                    <div className="ml-4">
+                      <span className="font-medium">Phone:</span> {formData.personalInfo.phone}
+                    </div>
+                  )}
+                  {formData.personalInfo.location && (
+                    <div className="ml-4">
+                      <span className="font-medium">Location:</span> {formData.personalInfo.location}
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              <div className="p-8">
+                <div className="grid grid-cols-12 gap-6">
+                  {/* Main content - 8 columns */}
+                  <div className="col-span-12 md:col-span-8">
+                    {formData.personalInfo.summary && (
+                      <div className="mb-6 bg-surface-50 p-4 rounded-lg border-l-4" style={{borderColor: selectedColorScheme.primary}}>
+                        <h2 className="text-lg font-bold mb-2" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
+                          About Me
+                        </h2>
+                        <p className="text-surface-700">
+                          {formData.personalInfo.summary}
+                        </p>
+                      </div>
+                    )}
+                    
+                    {formData.experience.some(exp => exp.company || exp.position) && (
+                      <div className="mb-6">
+                        <h2 className="text-lg font-bold mb-3 inline-block" style={{
+                          fontFamily: selectedTemplate.fonts.heading, 
+                          color: selectedColorScheme.primary,
+                          borderBottom: `2px solid ${selectedColorScheme.secondary}`
+                        }}>
+                          Work Experience
+                        </h2>
+                        
+                        {formData.experience.map((exp, index) => (
+                          (exp.company || exp.position) && (
+                            <div key={index} className="mb-5 pl-4 border-l-2 border-surface-200 hover:border-secondary transition-colors">
+                              <div className="flex flex-col mb-1">
+                                <h3 className="font-semibold" style={{color: selectedColorScheme.primary}}>
+                                  {exp.position || 'Position Title'}
+                                </h3>
+                                <div className="flex justify-between items-center">
+                                  <p className="font-medium">{exp.company || 'Company Name'}</p>
+                                  {(exp.startDate || exp.endDate) && (
+                                    <p className="text-sm bg-surface-100 px-2 py-0.5 rounded text-surface-600">
+                                      {exp.startDate || 'Start Date'} — {exp.endDate || 'End Date'}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                              {exp.description && (
+                                <p className="text-surface-700 mt-1 text-sm">
+                                  {exp.description}
+                                </p>
+                              )}
+                            </div>
+                          )
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Sidebar content - 4 columns */}
+                  <div className="col-span-12 md:col-span-4">
+                    {formData.education.some(edu => edu.institution || edu.degree) && (
+                      <div className="mb-6">
+                        <h2 className="text-lg font-bold mb-3 inline-block" style={{
+                          fontFamily: selectedTemplate.fonts.heading, 
+                          color: selectedColorScheme.primary,
+                          borderBottom: `2px solid ${selectedColorScheme.secondary}`
+                        }}>
+                          Education
+                        </h2>
+                        
+                        {formData.education.map((edu, index) => (
+                          (edu.institution || edu.degree) && (
+                            <div key={index} className="mb-4 bg-surface-50 p-3 rounded">
+                              <h3 className="font-semibold">
+                                {edu.degree ? edu.degree : 'Degree'}{edu.field ? `, ${edu.field}` : ''}
+                              </h3>
+                              <p className="text-surface-600 text-sm">{edu.institution || 'Institution Name'}</p>
+                              {(edu.startDate || edu.endDate) && (
+                                <p className="text-xs text-surface-500 mt-1">
+                                  {edu.startDate || 'Start Date'} — {edu.endDate || 'End Date'}
+                                </p>
+                              )}
+                            </div>
+                          )
+                        ))}
+                      </div>
+                    )}
+                    
+                    {formData.skills.some(skill => skill) && (
+                      <div>
+                        <h2 className="text-lg font-bold mb-3 inline-block" style={{
+                          fontFamily: selectedTemplate.fonts.heading, 
+                          color: selectedColorScheme.primary,
+                          borderBottom: `2px solid ${selectedColorScheme.secondary}`
+                        }}>
+                          Skills
+                        </h2>
+                        
+                        <div className="flex flex-wrap gap-2">
+                          {formData.skills.map((skill, index) => (
+                            skill && (
+                              <span 
+                                key={index}
+                                className="px-3 py-1.5 rounded text-sm inline-block mr-2 mb-2"
+                                style={{ 
+                                  backgroundColor: selectedColorScheme.primary,
+                                  color: 'white'
+                                }}
+                              >
+                                {skill}
+                              </span>
+                            )
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {/* Other template layouts would be implemented similarly */}
+          {['single-column', 'header-focus', 'two-column', 'infographic', 'traditional'].includes(selectedTemplate.layout) && (
+            <div className="bg-white border border-surface-300 shadow-lg rounded-lg overflow-hidden max-w-[800px] mx-auto p-6 flex justify-center items-center" style={{fontFamily: selectedTemplate.fonts.body, minHeight: '500px'}}>
+              <div className="text-center">
+                <h3 className="text-xl mb-4" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
+                  {selectedTemplate.name} Template Preview
+                </h3>
+                <img 
+                  src={selectedTemplate.previewImage} 
+                  alt={`${selectedTemplate.name} template preview`} 
+                  className="max-w-full rounded-lg shadow-md border border-surface-200"
+                />
+                <p className="mt-4 text-surface-600">
+                  Selected color scheme: <span className="font-medium" style={{color: selectedColorScheme.primary}}>{selectedColorScheme.name}</span>
+                </p>
+                <p className="mt-2 text-surface-500 text-sm">
+                  This template features {selectedTemplate.fonts.heading} headings and {selectedTemplate.fonts.body} body text
+                </p>
+              </div>
             </div>
           </div>
+        )}
         </div>
       </div>
     </div>

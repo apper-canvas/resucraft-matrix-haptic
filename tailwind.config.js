@@ -32,8 +32,16 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
-        heading: ['Inter', 'ui-sans-serif', 'system-ui']
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        heading: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        montserrat: ['Montserrat', 'sans-serif'],
+        poppins: ['Poppins', 'sans-serif'],
+        'dm-sans': ['DM Sans', 'sans-serif'],
+        playfair: ['Playfair Display', 'serif'],
+        raleway: ['Raleway', 'sans-serif'],
+        'source-sans': ['Source Sans Pro', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif'],
+        merriweather: ['Merriweather', 'serif']
       },
       boxShadow: {
         'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
