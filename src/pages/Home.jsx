@@ -1,16 +1,20 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
-import MainFeature from '../components/MainFeature';
 import { getIcon } from '../utils/iconUtils';
 
 const Home = ({ darkMode, toggleDarkMode }) => {
-  const [selectedTab, setSelectedTab] = useState('editor');
+  const navigate = useNavigate();
   
   const MoonIcon = getIcon('moon');
   const SunIcon = getIcon('sun');
   const FileTextIcon = getIcon('file-text');
-  const DownloadIcon = getIcon('download');
+  const ArrowRightIcon = getIcon('arrow-right');
+  
+  const handleStartClick = () => {
+    navigate('/template-selection');
+  };
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-surface-50 to-surface-100 dark:from-surface-900 dark:to-surface-800">
@@ -24,15 +28,6 @@ const Home = ({ darkMode, toggleDarkMode }) => {
           </div>
           
           <div className="flex items-center gap-3">
-            <button 
-              onClick={() => {
-                toast.info("Template downloaded as PDF!");
-              }}
-              className="btn btn-outline text-sm px-3 py-1.5"
-            >
-              <DownloadIcon className="w-4 h-4 mr-1.5" /> Export
-            </button>
-            
             <button 
               onClick={toggleDarkMode} 
               className="p-2 rounded-full hover:bg-surface-200 dark:hover:bg-surface-700 transition-colors"
@@ -53,7 +48,7 @@ const Home = ({ darkMode, toggleDarkMode }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-10 text-center"
+          className="my-16 text-center"
         >
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
             Create Professional Resumes
@@ -61,36 +56,40 @@ const Home = ({ darkMode, toggleDarkMode }) => {
           <p className="text-surface-600 dark:text-surface-300 text-lg md:text-xl max-w-2xl mx-auto">
             Choose from elegant templates, customize colors, and build your perfect resume in minutes.
           </p>
+          <button 
+            onClick={handleStartClick}
+            className="btn btn-primary px-8 py-3 text-lg mt-10 flex items-center gap-2 mx-auto"
+          >
+            Get Started <ArrowRightIcon className="w-5 h-5" />
+          </button>
         </motion.div>
 
-        <div className="mt-8">
-          <div className="flex justify-center mb-6">
-            <div className="inline-flex rounded-lg p-1 bg-surface-200 dark:bg-surface-700">
-              <button
-                onClick={() => setSelectedTab('editor')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition ${
-                  selectedTab === 'editor'
-                    ? 'bg-white dark:bg-surface-800 text-primary shadow-sm'
-                    : 'text-surface-600 dark:text-surface-300 hover:text-surface-900 dark:hover:text-white'
-                }`}
-              >
-                Editor
-              </button>
-              <button
-                onClick={() => setSelectedTab('preview')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition ${
-                  selectedTab === 'preview'
-                    ? 'bg-white dark:bg-surface-800 text-primary shadow-sm'
-                    : 'text-surface-600 dark:text-surface-300 hover:text-surface-900 dark:hover:text-white'
-                }`}
-              >
-                Preview
-              </button>
+        <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+          {/* Feature boxes */}
+          <div className="card p-6 text-center">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              {React.createElement(getIcon('layout-template'), { className: "w-8 h-8 text-primary" })}
             </div>
+            <h3 className="text-xl font-semibold mb-2">Choose a Template</h3>
+            <p className="text-surface-600 dark:text-surface-400">Select from professionally designed templates tailored for different industries and career levels.</p>
           </div>
-
-          <MainFeature activeTab={selectedTab} />
-        </div>
+          
+          <div className="card p-6 text-center">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              {React.createElement(getIcon('edit-3'), { className: "w-8 h-8 text-primary" })}
+            </div>
+            <h3 className="text-xl font-semibold mb-2">Fill Your Details</h3>
+            <p className="text-surface-600 dark:text-surface-400">Easily add your professional experience, education, skills and more with our intuitive editor.</p>
+          </div>
+          
+          <div className="card p-6 text-center">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              {React.createElement(getIcon('download'), { className: "w-8 h-8 text-primary" })}
+            </div>
+            <h3 className="text-xl font-semibold mb-2">Download & Share</h3>
+            <p className="text-surface-600 dark:text-surface-400">Preview your resume, make adjustments, and download a polished PDF ready for job applications.</p>
+          </div>
+        </motion.div>
       </main>
       
       <footer className="mt-auto py-6 border-t border-surface-200 dark:border-surface-700">

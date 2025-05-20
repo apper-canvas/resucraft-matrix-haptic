@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ResumeProvider } from './contexts/ResumeContext';
 import Home from './pages/Home';
+import TemplateSelection from './pages/TemplateSelection';
+import ResumeDetails from './pages/ResumeDetails';
+import ResumePreview from './pages/ResumePreview';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -35,23 +39,28 @@ function App() {
 
   return (
     <div className="min-h-screen">
-      <ToastContainer
-        position="top-right"
-        autoClose={4000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme={darkMode ? 'dark' : 'light'}
-      />
-      
-      <Routes>
-        <Route path="/" element={<Home darkMode={darkMode} toggleDarkMode={toggleDarkMode} />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <ResumeProvider>
+        <ToastContainer
+          position="top-right"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme={darkMode ? 'dark' : 'light'}
+        />
+        
+        <Routes>
+          <Route path="/" element={<Home darkMode={darkMode} toggleDarkMode={toggleDarkMode} />} />
+          <Route path="/template-selection" element={<TemplateSelection darkMode={darkMode} toggleDarkMode={toggleDarkMode} />} />
+          <Route path="/resume-details" element={<ResumeDetails darkMode={darkMode} toggleDarkMode={toggleDarkMode} />} />
+          <Route path="/preview" element={<ResumePreview darkMode={darkMode} toggleDarkMode={toggleDarkMode} />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </ResumeProvider>
     </div>
   );
 }

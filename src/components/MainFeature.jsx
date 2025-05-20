@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { getIcon } from '../utils/iconUtils';
+import { useResumeContext } from '../contexts/ResumeContext';
 
 // Resume templates data
 const resumeTemplates = [
@@ -128,59 +129,19 @@ const resumeTemplates = [
 ];
 
 const MainFeature = ({ activeTab }) => {
-  // Initial form state
-  const initialFormState = {
-    personalInfo: {
-      name: '',
-      title: '',
-      email: '',
-      phone: '',
-      location: '',
-      summary: ''
-    },
-    education: [{
-      institution: '',
-      degree: '',
-      field: '',
-      startDate: '',
-      endDate: '',
-      description: ''
-    }],
-    experience: [{
-      company: '',
-      position: '',
-      startDate: '',
-      endDate: '',
-      description: ''
-    }],
-    skills: ['']
-  };
-
-  // State hooks
-  const [selectedTemplate, setSelectedTemplate] = useState(resumeTemplates[0]);
-  const [selectedColorScheme, setSelectedColorScheme] = useState(resumeTemplates[0].colorSchemes[0]);
-  const [formData, setFormData] = useState(initialFormState);
-  const [currentSection, setCurrentSection] = useState('personalInfo');
+  // Use the resume context
+  const { 
+    selectedTemplate, 
+    selectedColorScheme, 
+    formData, 
+    setFormData, 
+    currentSection, 
+    setCurrentSection 
+  } = useResumeContext();
+  
   const [previewMode, setPreviewMode] = useState(false);
 
-  // Update preview mode when active tab changes
-  useEffect(() => {
-    setPreviewMode(activeTab === 'preview');
-  }, [activeTab]);
-
-  // Handle template selection
-  const handleTemplateSelect = (template) => {
-    setSelectedTemplate(template);
-    setSelectedColorScheme(template.colorSchemes[0]);
-    toast.success(`Template "${template.name}" selected!`);
-  };
-
-  // Handle color scheme selection
-  const handleColorSchemeSelect = (colorScheme) => {
-    setSelectedColorScheme(colorScheme);
-  };
-
-  // Handle form input changes
+  // Handle form input changes using context state
   const handleInputChange = (section, field, value, index = null) => {
     setFormData(prevData => {
       const newData = { ...prevData };
@@ -274,91 +235,19 @@ const MainFeature = ({ activeTab }) => {
 
   return (
     <div className="flex flex-col lg:flex-row gap-8">
-      {/* Left Side - Form or Templates Selection */}
+      {/* Update preview mode when active tab changes */}
+      {useEffect(() => {
+        setPreviewMode(activeTab === 'preview');
+      }, [activeTab])}
+      
+      {/* Left Side - Form */}
       <div className={`w-full lg:w-1/2 ${previewMode ? 'lg:hidden' : ''}`}>
-        {/* Templates Selection */}
-        {!previewMode && (
+        {!previewMode && selectedTemplate && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="card mb-8">
-              <h2 className="text-xl font-semibold mb-4 text-surface-800 dark:text-white">
-                Choose a Template
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {resumeTemplates.map(template => (
-                  <div
-                    key={template.id}
-                    className={`relative rounded-lg overflow-hidden cursor-pointer transition-all hover:scale-105 border-2 ${
-                      selectedTemplate.id === template.id
-                        ? 'border-primary shadow-md'
-                        : 'border-transparent'
-                    }`}
-                    onClick={() => handleTemplateSelect(template)}
-                  >
-                    <img
-                      src={template.previewImage}
-                      alt={template.name}
-                      className="w-full aspect-[3/4] object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent">
-                      {selectedTemplate.id === template.id && (
-                        <div className="absolute top-2 right-2 bg-primary text-white p-1 rounded-full">
-                          <CheckIcon className="w-4 h-4" />
-                        </div>
-                      )}
-                      <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
-                        <div className="flex items-center">
-                          {template.icon && (
-                            <span className="mr-1.5">
-                              {React.createElement(getIcon(template.icon), { className: "w-4 h-4" })}
-                            </span>
-                          )}
-                          <h3 className="font-semibold">{template.name}</h3>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Color Schemes */}
-            <div className="card mb-8">
-              <h2 className="text-xl font-semibold mb-4 text-surface-800 dark:text-white">
-                Color Scheme
-              </h2>
-              <div className="flex flex-wrap gap-3">
-                {selectedTemplate.colorSchemes.map(colorScheme => (
-                  <button
-                    key={colorScheme.name}
-                    onClick={() => handleColorSchemeSelect(colorScheme)}
-                    className={`relative p-1 rounded-md transition-all ${
-                      selectedColorScheme.name === colorScheme.name
-                        ? 'ring-2 ring-primary ring-offset-2 dark:ring-offset-surface-800'
-                        : 'hover:scale-105'
-                    }`}
-                  >
-                    <div className="flex">
-                      <div 
-                        className="w-8 h-8 rounded-l-sm" 
-                        style={{ backgroundColor: colorScheme.primary }}
-                      />
-                      <div 
-                        className="w-8 h-8 rounded-r-sm" 
-                        style={{ backgroundColor: colorScheme.secondary }}
-                      />
-                    </div>
-                    <span className="block text-xs mt-1 text-center">
-                      {colorScheme.name}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* Form */}
             <div className="card">
               <div className="flex mb-6 border-b border-surface-200 dark:border-surface-700">
@@ -716,172 +605,60 @@ const MainFeature = ({ activeTab }) => {
       </div>
 
       {/* Right Side - Resume Preview */}
-      <div className={`w-full ${previewMode ? '' : 'lg:w-1/2'}`}>
-        <div className="card h-full">
-          {/* Dynamic Resume Template Rendering */}
-          {selectedTemplate.layout === 'sidebar-left' && (
-            <div className="bg-white border border-surface-300 shadow-lg rounded-lg overflow-hidden max-w-[800px] mx-auto" style={{fontFamily: selectedTemplate.fonts.body}}>
-              <div className="flex flex-col md:flex-row">
-                {/* Sidebar */}
-                <div className="md:w-1/3 bg-surface-800" style={{backgroundColor: selectedColorScheme.primary}}>
-                  <div className="p-6 text-white">
-                    {/* Photo placeholder */}
-                    <div className="w-32 h-32 rounded-full bg-white/20 mx-auto mb-4 flex items-center justify-center text-white/50">
-                      <span className="text-4xl">
-                        {formData.personalInfo.name ? formData.personalInfo.name.charAt(0) : 'Y'}
-                      </span>
-                    </div>
-                    
-                    <div className="border-b border-white/20 pb-4 mb-6">
-                      <h4 className="uppercase text-xs tracking-wider mb-2 text-white/70">Contact</h4>
-                      {formData.personalInfo.email && <p className="text-sm mb-1">{formData.personalInfo.email}</p>}
-                      {formData.personalInfo.phone && <p className="text-sm mb-1">{formData.personalInfo.phone}</p>}
-                      {formData.personalInfo.location && <p className="text-sm">{formData.personalInfo.location}</p>}
-                    </div>
-                    
-                    {formData.skills.some(skill => skill) && (
-                      <div>
-                        <h4 className="uppercase text-xs tracking-wider mb-3 text-white/70">Skills</h4>
-                        <div className="space-y-2">
-                          {formData.skills.map((skill, index) => (
-                            skill && (
-                              <div key={index} className="text-sm">
-                                {skill}
-                              </div>
-                            )
-                          ))}
-                        </div>
+      {selectedTemplate && (
+        <div className={`w-full ${previewMode ? '' : 'lg:w-1/2'}`}>
+          <div className="card h-full">
+            {/* Dynamic Resume Template Rendering */}
+            {selectedTemplate.layout === 'sidebar-left' && (
+              <div className="bg-white border border-surface-300 shadow-lg rounded-lg overflow-hidden max-w-[800px] mx-auto" style={{fontFamily: selectedTemplate.fonts.body}}>
+                <div className="flex flex-col md:flex-row">
+                  {/* Sidebar */}
+                  <div className="md:w-1/3 bg-surface-800" style={{backgroundColor: selectedColorScheme.primary}}>
+                    <div className="p-6 text-white">
+                      {/* Photo placeholder */}
+                      <div className="w-32 h-32 rounded-full bg-white/20 mx-auto mb-4 flex items-center justify-center text-white/50">
+                        <span className="text-4xl">
+                          {formData.personalInfo.name ? formData.personalInfo.name.charAt(0) : 'Y'}
+                        </span>
                       </div>
-                    )}
+                      
+                      <div className="border-b border-white/20 pb-4 mb-6">
+                        <h4 className="uppercase text-xs tracking-wider mb-2 text-white/70">Contact</h4>
+                        {formData.personalInfo.email && <p className="text-sm mb-1">{formData.personalInfo.email}</p>}
+                        {formData.personalInfo.phone && <p className="text-sm mb-1">{formData.personalInfo.phone}</p>}
+                        {formData.personalInfo.location && <p className="text-sm">{formData.personalInfo.location}</p>}
+                      </div>
+                      
+                      {formData.skills.some(skill => skill) && (
+                        <div>
+                          <h4 className="uppercase text-xs tracking-wider mb-3 text-white/70">Skills</h4>
+                          <div className="space-y-2">
+                            {formData.skills.map((skill, index) => (
+                              skill && (
+                                <div key={index} className="text-sm">
+                                  {skill}
+                                </div>
+                              )
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-                
-                {/* Main Content */}
-                <div className="md:w-2/3 p-8">
-                  <h1 className="text-3xl font-bold uppercase tracking-wide mb-1" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
-                    {formData.personalInfo.name || 'Your Name'}
-                  </h1>
-                  <p className="text-xl text-surface-600 mb-6 pb-6 border-b border-surface-200">
-                    {formData.personalInfo.title || 'Professional Title'}
-                  </p>
                   
-                  {formData.personalInfo.summary && (
-                    <div className="mb-6">
-                      <h2 className="text-lg font-bold mb-2 uppercase tracking-wide" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
-                        Profile
-                      </h2>
-                      <p className="text-surface-700">
-                        {formData.personalInfo.summary}
-                      </p>
-                    </div>
-                  )}
-                  
-                  {formData.experience.some(exp => exp.company || exp.position) && (
-                    <div className="mb-6">
-                      <h2 className="text-lg font-bold mb-3 uppercase tracking-wide" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
-                        Experience
-                      </h2>
-                      
-                      {formData.experience.map((exp, index) => (
-                        (exp.company || exp.position) && (
-                          <div key={index} className="mb-4">
-                            <h3 className="font-semibold">{exp.position || 'Position Title'}</h3>
-                            <div className="flex justify-between items-center mb-1">
-                              <p className="text-surface-600">{exp.company || 'Company Name'}</p>
-                              {(exp.startDate || exp.endDate) && (
-                                <p className="text-sm text-surface-500">
-                                  {exp.startDate || 'Start Date'} - {exp.endDate || 'End Date'}
-                                </p>
-                              )}
-                            </div>
-                            {exp.description && (
-                              <p className="text-surface-700 mt-1 text-sm">
-                                {exp.description}
-                              </p>
-                            )}
-                          </div>
-                        )
-                      ))}
-                    </div>
-                  )}
-                  
-                  {formData.education.some(edu => edu.institution || edu.degree) && (
-                    <div>
-                      <h2 className="text-lg font-bold mb-3 uppercase tracking-wide" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
-                        Education
-                      </h2>
-                      
-                      {formData.education.map((edu, index) => (
-                        (edu.institution || edu.degree) && (
-                          <div key={index} className="mb-3">
-                            <h3 className="font-semibold">
-                              {edu.degree ? edu.degree : 'Degree'}{edu.field ? `, ${edu.field}` : ''}
-                            </h3>
-                            <div className="flex justify-between items-center">
-                              <p className="text-surface-600">{edu.institution || 'Institution Name'}</p>
-                              {(edu.startDate || edu.endDate) && (
-                                <p className="text-sm text-surface-500">
-                                  {edu.startDate || 'Start Date'} - {edu.endDate || 'End Date'}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        )
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {selectedTemplate.layout === 'asymmetric' && (
-            <div className="bg-white border border-surface-300 shadow-lg rounded-lg overflow-hidden max-w-[800px] mx-auto" style={{fontFamily: selectedTemplate.fonts.body}}>
-              {/* Creative Header with diagonal element */}
-              <div className="relative">
-                <div className="h-36 w-full relative overflow-hidden" style={{backgroundColor: selectedColorScheme.primary}}>
-                  <div className="absolute bottom-0 right-0 w-3/4 h-full" style={{
-                    backgroundColor: selectedColorScheme.secondary,
-                    clipPath: 'polygon(100% 0, 0% 100%, 100% 100%)'
-                  }}></div>
-                  
-                  <div className="absolute top-0 left-0 h-full w-full p-8 flex flex-col justify-center">
-                    <h1 className="text-3xl font-bold text-white" style={{fontFamily: selectedTemplate.fonts.heading}}>
+                  {/* Main Content */}
+                  <div className="md:w-2/3 p-8">
+                    <h1 className="text-3xl font-bold uppercase tracking-wide mb-1" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
                       {formData.personalInfo.name || 'Your Name'}
                     </h1>
-                    <p className="text-xl text-white/80">
+                    <p className="text-xl text-surface-600 mb-6 pb-6 border-b border-surface-200">
                       {formData.personalInfo.title || 'Professional Title'}
                     </p>
-                  </div>
-                </div>
-                
-                <div className="flex justify-end p-4 bg-surface-100 text-sm">
-                  {formData.personalInfo.email && (
-                    <div className="ml-4">
-                      <span className="font-medium">Email:</span> {formData.personalInfo.email}
-                    </div>
-                  )}
-                  {formData.personalInfo.phone && (
-                    <div className="ml-4">
-                      <span className="font-medium">Phone:</span> {formData.personalInfo.phone}
-                    </div>
-                  )}
-                  {formData.personalInfo.location && (
-                    <div className="ml-4">
-                      <span className="font-medium">Location:</span> {formData.personalInfo.location}
-                    </div>
-                  )}
-                </div>
-              </div>
-              
-              <div className="p-8">
-                <div className="grid grid-cols-12 gap-6">
-                  {/* Main content - 8 columns */}
-                  <div className="col-span-12 md:col-span-8">
+                    
                     {formData.personalInfo.summary && (
-                      <div className="mb-6 bg-surface-50 p-4 rounded-lg border-l-4" style={{borderColor: selectedColorScheme.primary}}>
-                        <h2 className="text-lg font-bold mb-2" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
-                          About Me
+                      <div className="mb-6">
+                        <h2 className="text-lg font-bold mb-2 uppercase tracking-wide" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
+                          Profile
                         </h2>
                         <p className="text-surface-700">
                           {formData.personalInfo.summary}
@@ -891,29 +668,21 @@ const MainFeature = ({ activeTab }) => {
                     
                     {formData.experience.some(exp => exp.company || exp.position) && (
                       <div className="mb-6">
-                        <h2 className="text-lg font-bold mb-3 inline-block" style={{
-                          fontFamily: selectedTemplate.fonts.heading, 
-                          color: selectedColorScheme.primary,
-                          borderBottom: `2px solid ${selectedColorScheme.secondary}`
-                        }}>
-                          Work Experience
+                        <h2 className="text-lg font-bold mb-3 uppercase tracking-wide" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
+                          Experience
                         </h2>
                         
                         {formData.experience.map((exp, index) => (
                           (exp.company || exp.position) && (
-                            <div key={index} className="mb-5 pl-4 border-l-2 border-surface-200 hover:border-secondary transition-colors">
-                              <div className="flex flex-col mb-1">
-                                <h3 className="font-semibold" style={{color: selectedColorScheme.primary}}>
-                                  {exp.position || 'Position Title'}
-                                </h3>
-                                <div className="flex justify-between items-center">
-                                  <p className="font-medium">{exp.company || 'Company Name'}</p>
-                                  {(exp.startDate || exp.endDate) && (
-                                    <p className="text-sm bg-surface-100 px-2 py-0.5 rounded text-surface-600">
-                                      {exp.startDate || 'Start Date'} — {exp.endDate || 'End Date'}
-                                    </p>
-                                  )}
-                                </div>
+                            <div key={index} className="mb-4">
+                              <h3 className="font-semibold">{exp.position || 'Position Title'}</h3>
+                              <div className="flex justify-between items-center mb-1">
+                                <p className="text-surface-600">{exp.company || 'Company Name'}</p>
+                                {(exp.startDate || exp.endDate) && (
+                                  <p className="text-sm text-surface-500">
+                                    {exp.startDate || 'Start Date'} - {exp.endDate || 'End Date'}
+                                  </p>
+                                )}
                               </div>
                               {exp.description && (
                                 <p className="text-surface-700 mt-1 text-sm">
@@ -925,95 +694,217 @@ const MainFeature = ({ activeTab }) => {
                         ))}
                       </div>
                     )}
-                  </div>
-                  
-                  {/* Sidebar content - 4 columns */}
-                  <div className="col-span-12 md:col-span-4">
+                    
                     {formData.education.some(edu => edu.institution || edu.degree) && (
-                      <div className="mb-6">
-                        <h2 className="text-lg font-bold mb-3 inline-block" style={{
-                          fontFamily: selectedTemplate.fonts.heading, 
-                          color: selectedColorScheme.primary,
-                          borderBottom: `2px solid ${selectedColorScheme.secondary}`
-                        }}>
+                      <div>
+                        <h2 className="text-lg font-bold mb-3 uppercase tracking-wide" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
                           Education
                         </h2>
                         
                         {formData.education.map((edu, index) => (
                           (edu.institution || edu.degree) && (
-                            <div key={index} className="mb-4 bg-surface-50 p-3 rounded">
+                            <div key={index} className="mb-3">
                               <h3 className="font-semibold">
                                 {edu.degree ? edu.degree : 'Degree'}{edu.field ? `, ${edu.field}` : ''}
                               </h3>
-                              <p className="text-surface-600 text-sm">{edu.institution || 'Institution Name'}</p>
-                              {(edu.startDate || edu.endDate) && (
-                                <p className="text-xs text-surface-500 mt-1">
-                                  {edu.startDate || 'Start Date'} — {edu.endDate || 'End Date'}
-                                </p>
-                              )}
+                              <div className="flex justify-between items-center">
+                                <p className="text-surface-600">{edu.institution || 'Institution Name'}</p>
+                                {(edu.startDate || edu.endDate) && (
+                                  <p className="text-sm text-surface-500">
+                                    {edu.startDate || 'Start Date'} - {edu.endDate || 'End Date'}
+                                  </p>
+                                )}
+                              </div>
                             </div>
                           )
                         ))}
                       </div>
                     )}
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {selectedTemplate.layout === 'asymmetric' && (
+              <div className="bg-white border border-surface-300 shadow-lg rounded-lg overflow-hidden max-w-[800px] mx-auto" style={{fontFamily: selectedTemplate.fonts.body}}>
+                {/* Creative Header with diagonal element */}
+                <div className="relative">
+                  <div className="h-36 w-full relative overflow-hidden" style={{backgroundColor: selectedColorScheme.primary}}>
+                    <div className="absolute bottom-0 right-0 w-3/4 h-full" style={{
+                      backgroundColor: selectedColorScheme.secondary,
+                      clipPath: 'polygon(100% 0, 0% 100%, 100% 100%)'
+                    }}></div>
                     
-                    {formData.skills.some(skill => skill) && (
-                      <div>
-                        <h2 className="text-lg font-bold mb-3 inline-block" style={{
-                          fontFamily: selectedTemplate.fonts.heading, 
-                          color: selectedColorScheme.primary,
-                          borderBottom: `2px solid ${selectedColorScheme.secondary}`
-                        }}>
-                          Skills
-                        </h2>
-                        
-                        <div className="flex flex-wrap gap-2">
-                          {formData.skills.map((skill, index) => (
-                            skill && (
-                              <span 
-                                key={index}
-                                className="px-3 py-1.5 rounded text-sm inline-block mr-2 mb-2"
-                                style={{ 
-                                  backgroundColor: selectedColorScheme.primary,
-                                  color: 'white'
-                                }}
-                              >
-                                {skill}
-                              </span>
-                            )
-                          ))}
-                        </div>
+                    <div className="absolute top-0 left-0 h-full w-full p-8 flex flex-col justify-center">
+                      <h1 className="text-3xl font-bold text-white" style={{fontFamily: selectedTemplate.fonts.heading}}>
+                        {formData.personalInfo.name || 'Your Name'}
+                      </h1>
+                      <p className="text-xl text-white/80">
+                        {formData.personalInfo.title || 'Professional Title'}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-end p-4 bg-surface-100 text-sm">
+                    {formData.personalInfo.email && (
+                      <div className="ml-4">
+                        <span className="font-medium">Email:</span> {formData.personalInfo.email}
+                      </div>
+                    )}
+                    {formData.personalInfo.phone && (
+                      <div className="ml-4">
+                        <span className="font-medium">Phone:</span> {formData.personalInfo.phone}
+                      </div>
+                    )}
+                    {formData.personalInfo.location && (
+                      <div className="ml-4">
+                        <span className="font-medium">Location:</span> {formData.personalInfo.location}
                       </div>
                     )}
                   </div>
                 </div>
+                
+                <div className="p-8">
+                  <div className="grid grid-cols-12 gap-6">
+                    {/* Main content - 8 columns */}
+                    <div className="col-span-12 md:col-span-8">
+                      {formData.personalInfo.summary && (
+                        <div className="mb-6 bg-surface-50 p-4 rounded-lg border-l-4" style={{borderColor: selectedColorScheme.primary}}>
+                          <h2 className="text-lg font-bold mb-2" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
+                            About Me
+                          </h2>
+                          <p className="text-surface-700">
+                            {formData.personalInfo.summary}
+                          </p>
+                        </div>
+                      )}
+                      
+                      {formData.experience.some(exp => exp.company || exp.position) && (
+                        <div className="mb-6">
+                          <h2 className="text-lg font-bold mb-3 inline-block" style={{
+                            fontFamily: selectedTemplate.fonts.heading, 
+                            color: selectedColorScheme.primary,
+                            borderBottom: `2px solid ${selectedColorScheme.secondary}`
+                          }}>
+                            Work Experience
+                          </h2>
+                          
+                          {formData.experience.map((exp, index) => (
+                            (exp.company || exp.position) && (
+                              <div key={index} className="mb-5 pl-4 border-l-2 border-surface-200 hover:border-secondary transition-colors">
+                                <div className="flex flex-col mb-1">
+                                  <h3 className="font-semibold" style={{color: selectedColorScheme.primary}}>
+                                    {exp.position || 'Position Title'}
+                                  </h3>
+                                  <div className="flex justify-between items-center">
+                                    <p className="font-medium">{exp.company || 'Company Name'}</p>
+                                    {(exp.startDate || exp.endDate) && (
+                                      <p className="text-sm bg-surface-100 px-2 py-0.5 rounded text-surface-600">
+                                        {exp.startDate || 'Start Date'} — {exp.endDate || 'End Date'}
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                                {exp.description && (
+                                  <p className="text-surface-700 mt-1 text-sm">
+                                    {exp.description}
+                                  </p>
+                                )}
+                              </div>
+                            )
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Sidebar content - 4 columns */}
+                    <div className="col-span-12 md:col-span-4">
+                      {formData.education.some(edu => edu.institution || edu.degree) && (
+                        <div className="mb-6">
+                          <h2 className="text-lg font-bold mb-3 inline-block" style={{
+                            fontFamily: selectedTemplate.fonts.heading, 
+                            color: selectedColorScheme.primary,
+                            borderBottom: `2px solid ${selectedColorScheme.secondary}`
+                          }}>
+                            Education
+                          </h2>
+                          
+                          {formData.education.map((edu, index) => (
+                            (edu.institution || edu.degree) && (
+                              <div key={index} className="mb-4 bg-surface-50 p-3 rounded">
+                                <h3 className="font-semibold">
+                                  {edu.degree ? edu.degree : 'Degree'}{edu.field ? `, ${edu.field}` : ''}
+                                </h3>
+                                <p className="text-surface-600 text-sm">{edu.institution || 'Institution Name'}</p>
+                                {(edu.startDate || edu.endDate) && (
+                                  <p className="text-xs text-surface-500 mt-1">
+                                    {edu.startDate || 'Start Date'} — {edu.endDate || 'End Date'}
+                                  </p>
+                                )}
+                              </div>
+                            )
+                          ))}
+                        </div>
+                      )}
+                      
+                      {formData.skills.some(skill => skill) && (
+                        <div>
+                          <h2 className="text-lg font-bold mb-3 inline-block" style={{
+                            fontFamily: selectedTemplate.fonts.heading, 
+                            color: selectedColorScheme.primary,
+                            borderBottom: `2px solid ${selectedColorScheme.secondary}`
+                          }}>
+                            Skills
+                          </h2>
+                          
+                          <div className="flex flex-wrap gap-2">
+                            {formData.skills.map((skill, index) => (
+                              skill && (
+                                <span 
+                                  key={index}
+                                  className="px-3 py-1.5 rounded text-sm inline-block mr-2 mb-2"
+                                  style={{ 
+                                    backgroundColor: selectedColorScheme.primary,
+                                    color: 'white'
+                                  }}
+                                >
+                                  {skill}
+                                </span>
+                              )
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          )}
-          
-          {/* Other template layouts would be implemented similarly */}
-          {['single-column', 'header-focus', 'two-column', 'infographic', 'traditional'].includes(selectedTemplate.layout) && (
-            <div className="bg-white border border-surface-300 shadow-lg rounded-lg overflow-hidden max-w-[800px] mx-auto p-6 flex justify-center items-center" style={{fontFamily: selectedTemplate.fonts.body, minHeight: '500px'}}>
-              <div className="text-center"> 
-                <h3 className="text-xl mb-4" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
-                  {selectedTemplate.name} Template Preview
-                </h3>
-                <img 
-                  src={selectedTemplate.previewImage} 
-                  alt={`${selectedTemplate.name} template preview`} 
-                  className="max-w-full rounded-lg shadow-md border border-surface-200"
-                />
-                <p className="mt-4 text-surface-600">
-                  Selected color scheme: <span className="font-medium" style={{color: selectedColorScheme.primary}}>{selectedColorScheme.name}</span>
-                </p>
-                <p className="mt-2 text-surface-500 text-sm">
-                  This template features {selectedTemplate.fonts.heading} headings and {selectedTemplate.fonts.body} body text
-                </p>
+            )}
+            
+            {/* Other template layouts would be implemented similarly */}
+            {['single-column', 'header-focus', 'two-column', 'infographic', 'traditional'].includes(selectedTemplate.layout) && (
+              <div className="bg-white border border-surface-300 shadow-lg rounded-lg overflow-hidden max-w-[800px] mx-auto p-6 flex justify-center items-center" style={{fontFamily: selectedTemplate.fonts.body, minHeight: '500px'}}>
+                <div className="text-center"> 
+                  <h3 className="text-xl mb-4" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
+                    {selectedTemplate.name} Template Preview
+                  </h3>
+                  <img 
+                    src={selectedTemplate.previewImage} 
+                    alt={`${selectedTemplate.name} template preview`} 
+                    className="max-w-full rounded-lg shadow-md border border-surface-200"
+                  />
+                  <p className="mt-4 text-surface-600">
+                    Selected color scheme: <span className="font-medium" style={{color: selectedColorScheme.primary}}>{selectedColorScheme.name}</span>
+                  </p>
+                  <p className="mt-2 text-surface-500 text-sm">
+                    This template features {selectedTemplate.fonts.heading} headings and {selectedTemplate.fonts.body} body text
+                  </p>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
