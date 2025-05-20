@@ -998,7 +998,6 @@ const MainFeature = ({ activeTab }) => {
             </div>
           )}
         </div>
-        </div>
       </div>
     </div>
   );
