@@ -979,7 +979,7 @@ const MainFeature = ({ activeTab }) => {
           {/* Other template layouts would be implemented similarly */}
           {['single-column', 'header-focus', 'two-column', 'infographic', 'traditional'].includes(selectedTemplate.layout) && (
             <div className="bg-white border border-surface-300 shadow-lg rounded-lg overflow-hidden max-w-[800px] mx-auto p-6 flex justify-center items-center" style={{fontFamily: selectedTemplate.fonts.body, minHeight: '500px'}}>
-              <div className="text-center">
+              <div className="text-center"> 
                 <h3 className="text-xl mb-4" style={{fontFamily: selectedTemplate.fonts.heading, color: selectedColorScheme.primary}}>
                   {selectedTemplate.name} Template Preview
                 </h3>
@@ -996,8 +996,8 @@ const MainFeature = ({ activeTab }) => {
                 </p>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
         </div>
       </div>
     </div>
